@@ -5,7 +5,6 @@ from urllib.request import urlopen
 from zipfile import ZipFile
 
 
-
 def fetch_url(url, stream_cls=io.BytesIO):
     stream = stream_cls()
     stream.write(urlopen(url).read())

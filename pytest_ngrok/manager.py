@@ -58,7 +58,7 @@ class NgrokContextManager:
         return self.remote_addr + other
 
     def __enter__(self):
-        return self.remote_addr
+        return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.stop()

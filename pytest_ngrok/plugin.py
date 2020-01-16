@@ -10,9 +10,15 @@ from pytest_ngrok.manager import NgrokContextManager
 
 def pytest_addoption(parser):
     parser.addoption(
-        '--ngrok',
+        '--ngrok-bin',
         default=distutils.spawn.find_executable('ngrok'),
         help='path to ngrok [%default]'
+    )
+    parser.addoption(
+        '--ngrok-no-install',
+        action='store_true',
+        default=False,
+        help='Disable fetch ngrok binary from remote'
     )
 
 
@@ -26,13 +32,21 @@ def ngrok_install_url():
 
 
 @fixture(scope='function')
-def ngrok_bin(request, ngrok_install_url):
+def ngrok_allow_install(request):
+    return not request.config.getoption('--ngrok-no-install', False)
+
+
+@fixture(scope='function')
+def ngrok_bin(request, ngrok_install_url, ngrok_allow_install):
     # TODO get from setup.cfg
     ngrok_path = request.config.getoption('--ngrok', '/usr/local/bin/ngrok')
     if not ngrok_path:
         ngrok_path = os.path.join(Path.home(), '.local', 'bin', 'ngrok')
     if not os.path.exists(ngrok_path):
-        install_bin(ngrok_path, remote_url=ngrok_install_url)
+        if ngrok_allow_install:
+            install_bin(ngrok_path, remote_url=ngrok_install_url)
+        else:
+            raise OSError(f"Ngrok {ngrok_path} bin not found!")
     return ngrok_path
 
 

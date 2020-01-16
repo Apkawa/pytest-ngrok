@@ -4,17 +4,9 @@
 [![PyUP](https://pyup.io/repos/github/Apkawa/pytest-ngrok/shield.svg)](https://pyup.io/repos/github/Apkawa/pytest-ngrok)
 [![PyPI](https://img.shields.io/pypi/pyversions/pytest-ngrok.svg)]()
 
-Template repository for django-app.
-After create find and replace 
-* `pytest-ngrok` to new repository name
-* `pytest_ngrok` to new app package name
+pytest integration for ngrok
 
 # Installation
-
-```bash
-pip install pytest-ngrok
-
-```
 
 or from git
 
@@ -22,18 +14,45 @@ or from git
 pip install -e git+https://githib.com/Apkawa/pytest-ngrok.git#egg=pytest-ngrok
 ```
 
-## Django and python version
-
-| Python<br/>Django |        3.5         |      3.6           |      3.7           |       3.8          |
-|:-----------------:|--------------------|--------------------|--------------------|--------------------|
-| 1.8               |       :x:          |      :x:           |       :x:          |      :x:           |
-| 1.11              | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |      :x:           |
-| 2.2               | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| 3.0               |       :x:          | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-
 
 # Usage
 
+```python
+import pytest
+
+from urllib.error import HTTPError
+from urllib.request import urlopen
+
+def test_ngrok(ngrok, httpserver):
+    httpserver.expect_request("/foobar").respond_with_data("ok")
+    remote_url = ngrok(httpserver.port)
+    assert urlopen(remote_url + "/foobar").read() == b'ok'
+
+
+def test_ngrok_context_manager(ngrok, httpserver):
+    httpserver.expect_request("/foobar").respond_with_data("ok")
+    with ngrok(httpserver.port) as remote_url:
+        _test_url = str(remote_url) + '/foobar'
+        assert urlopen(_test_url).read() == b'ok'
+
+    # Connection closes
+    pytest.raises(HTTPError, urlopen, _test_url)
+```
+
+## Fixtures
+
+fixture lookup binary `ngrok` in $PATH 
+or download binary to `$HOME/.local/bin/ngrok` by default.
+
+for override it use `ngrok_bin` fixture
+
+```python
+import pytest
+
+@pytest.fixture()
+def ngrok_bin():
+    return '/path/to/writable/bin/ngrok'
+```
 
 
 # Contributing
@@ -41,15 +60,13 @@ pip install -e git+https://githib.com/Apkawa/pytest-ngrok.git#egg=pytest-ngrok
 ## run example app
 
 ```bash
-pip install -r requirements.txt
-./test/manage.py migrate
-./test/manage.py runserver
+pip install -r requirements-dev.txt
 ```
 
 ## run tests
 
 ```bash
-pip install -r requirements.txt
+pip install -r requirements-dev.txt
 pytest
 tox
 ```

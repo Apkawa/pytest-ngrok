@@ -2,37 +2,31 @@ sudo: false
 language: python
 
 python:
+    - "2.7"
     - "3.5"
     - "3.6"
     - "3.7"
     - "3.8"
-env:
-  - DJANGO=1.8
-  - DJANGO=1.11
-  - DJANGO=2.2
-  - DJANGO=3.0
+    - "3.9-dev"
+    - "nightly"
 
 matrix:
   fast_finish: true
   include:
     - env: TOXENV=qa
       python: "3.7"
-    - env: TOXENV=py37-django-dev
-      python: "3.7"
-  exclude:
-    # Python/Django combinations that aren't officially supported
-    - { env: DJANGO=1.11, python: "3.7" }
-    - { env: DJANGO=1.11, python: "3.8" }
-    - { env: DJANGO=3.0, python: "3.5" }
+
   allow_failures:
-    - env: DJANGO=1.8
-    - env: DJANGO=1.11
+    - python: "2.7"
+    - env: TOXENV=qa
+    - python: "3.9-dev"
+    - python: "nightly"
 
 
 install: pip install tox-travis python-coveralls codecov
-script: tox -- -v --cov pytest_ngrok --cov-report term-missing --flake8
+script: tox
 after_success:
-  - codecov -e TOXENV,DJANGO
+  - codecov -e TOXENV
 
 # TODO
 #deploy:

@@ -57,10 +57,11 @@ setup(
         ]
     },
     install_requires=[
+        'pytest',
     ],
     zip_safe=False,
     include_package_data=True,
-    keywords=['django'],
+    keywords=['pytest'],
     license='MIT',
     classifiers=[
         'Development Status :: 3 - Alpha',
