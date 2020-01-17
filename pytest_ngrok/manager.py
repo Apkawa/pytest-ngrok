@@ -26,7 +26,7 @@ class NgrokContextManager:
         # Detecting public address by grepping log
         while True:
             for line in process.stdout:
-                data = json.loads(line)
+                data = json.loads(line.decode('utf-8'))
                 if 'resp' in data and 'URL' in data['resp']:
                     self.remote_addr = data['resp']['URL']
                     return self.remote_addr
