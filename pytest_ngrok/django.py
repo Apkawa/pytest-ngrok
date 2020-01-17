@@ -20,9 +20,9 @@ __all__ = [
 
 
 class LiveServerNgrokMixin:
-    def __init__(self, addr, ngrok_bin):
+    def __init__(self, addr, ngrok):
         super().__init__(addr)
-        self.ngrok = NgrokContextManager(ngrok_path=ngrok_bin, port=self.thread.port)
+        self.ngrok = ngrok(port=self.thread.port)
         self.ngrok.init()
 
     @property
@@ -44,7 +44,7 @@ def liveserver_ngrok_cls():
 
 
 @pytest.fixture(scope='function')
-def live_server_ngrok(request, liveserver_ngrok_cls, ngrok_bin):
+def live_server_ngrok(request, liveserver_ngrok_cls, ngrok):
     """Run a live Django server in the background during tests
     and wrap with ngrok
     The address the server is started from is taken from the
@@ -78,6 +78,6 @@ def live_server_ngrok(request, liveserver_ngrok_cls, ngrok_bin):
         else:
             addr = 'localhost'
 
-    server = LiveServerNgrok(addr=addr, ngrok_bin=ngrok_bin)
+    server = LiveServerNgrok(addr=addr, ngrok=ngrok)
     request.addfinalizer(server.stop)
     return server

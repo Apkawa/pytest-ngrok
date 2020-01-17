@@ -44,7 +44,7 @@ def ngrok_allow_install(request):
 @fixture(scope='session')
 def ngrok_bin(request):
     # TODO get from setup.cfg
-    ngrok_path = request.config.getoption('--ngrok', '/usr/local/bin/ngrok')
+    ngrok_path = request.config.getoption('--ngrok')
     if not ngrok_path:
         ngrok_path = os.path.join(Path.home(), '.local', 'bin', 'ngrok')
     return ngrok_path

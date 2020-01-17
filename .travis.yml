@@ -1,40 +1,34 @@
 sudo: false
 language: python
-
 python:
-    - "3.5"
-    - "3.6"
-    - "3.7"
-    - "3.8"
-    - "3.9-dev"
-    - "nightly"
-
+  - '3.5'
+  - '3.6'
+  - '3.7'
+  - '3.8'
+  - 3.9-dev
+  - nightly
 matrix:
   fast_finish: true
   include:
     - env: TOXENV=qa
-      python: "3.7"
-
+      python: '3.7'
   allow_failures:
     - env: TOXENV=qa
-    - python: "3.9-dev"
-    - python: "nightly"
-
-
+    - python: 3.9-dev
+    - python: nightly
 install: pip install tox-travis python-coveralls codecov
 script: tox
 after_success:
   - codecov
 
-# TODO
-#deploy:
-#  provider: pypi
-#  user: Apkawa
-#  password:
-#    # https://docs.travis-ci.com/user/encryption-keys/
-#    secure: ''
-#  on:
-#    tags: true
-#    distributions: sdist bdist_wheel
-#    repo: Apkawa/pytest-ngrok
-#    branch: master
+deploy:
+  provider: pypi
+  user: __token__
+  password:
+    secure: lNO05ZwrKQ2zcwJhsF8ncNeVUYkmhiDQgXtDBpsPr155xkzxf0KqJKclsBX9lHoayARqu2P0RgydWNqgyYWT/FtLKhhTsgABoY2VhrtOe31OkMKPO6qfqHROW55x/e3U6Tw5YwsqdcvTnUKc5sTWNnLdYbBRYr0j/zRJ3wQlSIZ/FyPM7g/1MlHbmKg5GwEiqz0My3WZSKMH6JtuXInQwgZOxYQ2f/6x5zII2EL9NvGMuEjAvVLAsheZTc3s+U0tu+KRWqzfBbSEYEuvPXO3zRMwA0xcVUVo2FudvCWiNNW2iRqR6Sh3IIYwQnYvglJmVn7+G9UkZCswoIzzQx0PP+1dhB24qU/g+ApQ4qBr6u7q4duHY9qJ7f4rQ6a0enIhXcBItrVgVBBien2F7cyVM1rcq6ZbJN0dBR8fbb+Ho/giwkW75UEzvF6C0uTOSo41ssl13dHYp0Hu5gAKrNyhMkd3LlUxeIWy6BgoiqdgtAmpW8Ib/Afem+9ypnLXOo1dTI7+tORFfssWTg8hl9M6VPstmWNhR7y0mBiA5uYi+CoE0d1dttUn0myyuQIyJkVOrLZUU5T71yXjlldLT7lakrdgfhA7FESVmBrrtYr8gOdzGNyEsPqGOrkXLGTAgLQplyunoXj8uf302QCQKTquV6gCL4bCOfPPLfjQfQu9pZA=
+  on:
+    skip_existing: true
+    tags: true
+    distributions: sdist bdist_wheel
+    repo: Apkawa/pytest-ngrok
+    branch: master
