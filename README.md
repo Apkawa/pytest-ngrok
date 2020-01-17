@@ -1,13 +1,22 @@
+[![PyPi](https://img.shields.io/pypi/v/pytest-ngrok.svg)](https://pypi.python.org/pypi/pytest-ngrok)
 [![Build Status](https://travis-ci.org/Apkawa/pytest-ngrok.svg?branch=master)](https://travis-ci.org/Apkawa/pytest-ngrok)
+[![PyPI](https://img.shields.io/pypi/pyversions/pytest-ngrok.svg)](https://pypi.python.org/pypi/pytest-ngrok)
+
+<!--
 [![codecov](https://codecov.io/gh/Apkawa/pytest-ngrok/branch/master/graph/badge.svg)](https://codecov.io/gh/Apkawa/pytest-ngrok)
 [![Requirements Status](https://requires.io/github/Apkawa/pytest-ngrok/requirements.svg?branch=master)](https://requires.io/github/Apkawa/pytest-ngrok/requirements/?branch=master)
 [![PyUP](https://pyup.io/repos/github/Apkawa/pytest-ngrok/shield.svg)](https://pyup.io/repos/github/Apkawa/pytest-ngrok)
-[![PyPI](https://img.shields.io/pypi/pyversions/pytest-ngrok.svg)]()
+-->
 
-pytest integration for ngrok
+pytest integration for [ngrok.io](https://ngrok.com/)
 
 # Installation
 
+from PyPi
+
+```bash
+pip install pytest-ngrok
+```
 or from git
 
 ```bash
