@@ -43,21 +43,23 @@ def ngrok_allow_install(request):
 
 
 @fixture(scope='session')
-def ngrok_bin(request, ngrok_install_url, ngrok_allow_install):
+def ngrok_bin(request):
     # TODO get from setup.cfg
     ngrok_path = request.config.getoption('--ngrok', '/usr/local/bin/ngrok')
     if not ngrok_path:
         ngrok_path = os.path.join(Path.home(), '.local', 'bin', 'ngrok')
-    if not os.path.exists(ngrok_path):
-        if ngrok_allow_install:
-            install_bin(ngrok_path, remote_url=ngrok_install_url)
-        else:
-            raise OSError(f"Ngrok {ngrok_path} bin not found!")
     return ngrok_path
 
 
 @fixture(scope='function')
-def ngrok(ngrok_bin):
+def ngrok(ngrok_bin, ngrok_install_url, ngrok_allow_install):
+
+    if not os.path.exists(ngrok_bin):
+        if ngrok_allow_install:
+            install_bin(ngrok_bin, remote_url=ngrok_install_url)
+        else:
+            raise OSError(f"Ngrok %s bin not found!" % ngrok_bin)
+
     managers = []
 
     def _wrap(port=None):
