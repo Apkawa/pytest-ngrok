@@ -2,8 +2,6 @@ import os
 
 import pytest
 
-from pytest_ngrok.manager import NgrokContextManager
-
 try:
     import django
     from pytest_django.lazy_django import skip_if_no_django
