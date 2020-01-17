@@ -30,6 +30,7 @@ def test_ngrok(ngrok, httpserver):
 
 
 def test_ngrok_context_manager(ngrok, httpserver):
+    # example local server
     httpserver.expect_request("/foobar").respond_with_data("ok")
     with ngrok(httpserver.port) as remote_url:
         _test_url = str(remote_url) + '/foobar'
@@ -37,6 +38,13 @@ def test_ngrok_context_manager(ngrok, httpserver):
 
     # Connection closes
     pytest.raises(HTTPError, urlopen, _test_url)
+```
+
+With `pytest-django` can use fixture `live_server_ngrok` 
+
+```python
+def test_server(live_server_ngrok):
+    assert live_server_ngrok.url.endswith('ngrok.io')
 ```
 
 ## Fixtures

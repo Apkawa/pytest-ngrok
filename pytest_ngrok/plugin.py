@@ -7,6 +7,12 @@ from pytest import fixture
 from pytest_ngrok.install import install_bin
 from pytest_ngrok.manager import NgrokContextManager
 
+try:
+    import pytest_django
+    from .django import *
+except ImportError:
+    pass
+
 
 def pytest_addoption(parser):
     parser.addoption(
@@ -25,18 +31,18 @@ def pytest_addoption(parser):
 REMOTE_URL = 'https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip'
 
 
-@fixture(scope='function')
+@fixture(scope='session')
 def ngrok_install_url():
     # TODO verify
     return REMOTE_URL
 
 
-@fixture(scope='function')
+@fixture(scope='session')
 def ngrok_allow_install(request):
     return not request.config.getoption('--ngrok-no-install', False)
 
 
-@fixture(scope='function')
+@fixture(scope='session')
 def ngrok_bin(request, ngrok_install_url, ngrok_allow_install):
     # TODO get from setup.cfg
     ngrok_path = request.config.getoption('--ngrok', '/usr/local/bin/ngrok')

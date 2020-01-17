@@ -51,6 +51,10 @@ class NgrokContextManager:
         self.init()
         return self
 
+    @property
+    def url(self):
+        return self.remote_addr
+
     def __str__(self):
         return self.remote_addr
 
