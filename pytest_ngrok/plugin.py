@@ -58,7 +58,7 @@ def ngrok(ngrok_bin, ngrok_install_url, ngrok_allow_install):
         if ngrok_allow_install:
             install_bin(ngrok_bin, remote_url=ngrok_install_url)
         else:
-            raise OSError(f"Ngrok %s bin not found!" % ngrok_bin)
+            raise OSError("Ngrok %s bin not found!" % ngrok_bin)
 
     managers = []
 
