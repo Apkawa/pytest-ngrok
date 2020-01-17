@@ -5,12 +5,19 @@ import pytest
 from pytest_ngrok.manager import NgrokContextManager
 
 try:
+    import django
     from pytest_django.lazy_django import skip_if_no_django
-    from pytest_django.live_server_helper import parse_addr, LiveServer
+    from pytest_django.live_server_helper import LiveServer
 except ImportError:
     raise ImportError("pytest-django is required!")
 
-__all__ = ['liveserver_ngrok_cls', 'live_server_ngrok', 'LiveServerNgrok', 'LiveServerNgrokMixin']
+__all__ = [
+    'liveserver_ngrok_cls',
+    'live_server_ngrok',
+    'LiveServerNgrok',
+    'LiveServerNgrokMixin'
+]
+
 
 class LiveServerNgrokMixin:
     def __init__(self, addr, ngrok_bin):
@@ -58,10 +65,7 @@ def live_server_ngrok(request, liveserver_ngrok_cls, ngrok_bin):
     """
     skip_if_no_django()
 
-    import django
-
-    addr = (request.config.getvalue('liveserver') or
-            os.getenv('DJANGO_LIVE_TEST_SERVER_ADDRESS'))
+    addr = (request.config.getvalue('liveserver') or os.getenv('DJANGO_LIVE_TEST_SERVER_ADDRESS'))
 
     if addr and django.VERSION >= (1, 11) and ':' in addr:
         request.config.warn('D001', 'Specifying a live server port is not supported '

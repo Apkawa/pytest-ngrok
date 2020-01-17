@@ -8,8 +8,7 @@ from pytest_ngrok.install import install_bin
 from pytest_ngrok.manager import NgrokContextManager
 
 try:
-    import pytest_django
-    from .django import *
+    from .django import * # noqa
 except ImportError:
     pass
 
@@ -53,7 +52,6 @@ def ngrok_bin(request):
 
 @fixture(scope='function')
 def ngrok(ngrok_bin, ngrok_install_url, ngrok_allow_install):
-
     if not os.path.exists(ngrok_bin):
         if ngrok_allow_install:
             install_bin(ngrok_bin, remote_url=ngrok_install_url)
