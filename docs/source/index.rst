@@ -2,10 +2,9 @@ pytest-ngrok documentation!
 ====================================
 
 .. toctree::
-   :maxdepth: 3
-   :caption:
-      readme
-      example
+   :maxdepth: 2
+
+   readme
 
 
 Indices and tables

@@ -12,6 +12,8 @@ matrix:
   include:
     - env: TOXENV=qa
       python: '3.7'
+    - env: TOXENV=docs
+      python: '3.7'
   allow_failures:
     - env: TOXENV=qa
     - python: 3.9-dev
