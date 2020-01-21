@@ -1,6 +1,7 @@
 [![PyPi](https://img.shields.io/pypi/v/pytest-ngrok.svg)](https://pypi.python.org/pypi/pytest-ngrok)
-[![Build Status](https://travis-ci.org/Apkawa/pytest-ngrok.svg?branch=master)](https://travis-ci.org/Apkawa/pytest-ngrok)
 [![PyPI](https://img.shields.io/pypi/pyversions/pytest-ngrok.svg)](https://pypi.python.org/pypi/pytest-ngrok)
+[![Build Status](https://travis-ci.org/Apkawa/pytest-ngrok.svg?branch=master)](https://travis-ci.org/Apkawa/pytest-ngrok)
+[![Documentation Status](https://readthedocs.org/projects/pytest-ngrok/badge/?version=latest)](https://pytest-ngrok.readthedocs.io/en/latest/?badge=latest)
 
 <!--
 [![codecov](https://codecov.io/gh/Apkawa/pytest-ngrok/branch/master/graph/badge.svg)](https://codecov.io/gh/Apkawa/pytest-ngrok)
@@ -56,34 +57,19 @@ def test_server(live_server_ngrok):
     assert live_server_ngrok.url.endswith('ngrok.io')
 ```
 
-## Fixtures
-
-fixture lookup binary `ngrok` in $PATH 
-or download binary to `$HOME/.local/bin/ngrok` by default.
-
-for override it use `ngrok_bin` fixture
-
-```python
-import pytest
-
-@pytest.fixture()
-def ngrok_bin():
-    return '/path/to/writable/bin/ngrok'
-```
-
-
 # Contributing
 
-## run example app
+## Initialize 
 
 ```bash
+python -m venv /tmp/.venv/pytest-ngrok
+source /tmp/.venv/pytest-ngrok/activate
 pip install -r requirements-dev.txt
 ```
 
-## run tests
+## Run tests
 
 ```bash
-pip install -r requirements-dev.txt
 pytest
 tox
 ```
@@ -94,7 +80,7 @@ tox
 python setup.py bumpversion
 ```
 
-## publish pypi
+## Publish pypi
 
 ```bash
 python setup.py publish

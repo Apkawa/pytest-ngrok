@@ -5,6 +5,7 @@ pytest-ngrok documentation!
    :maxdepth: 2
 
    readme
+   fixtures
 
 
 Indices and tables

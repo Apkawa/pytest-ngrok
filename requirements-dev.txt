@@ -11,6 +11,7 @@ pytest-cov==2.8.1
 pytest-httpserver==0.3.4
 # Docs
 
+recommonmark
 Sphinx
 alabaster
 m2r

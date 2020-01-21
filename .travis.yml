@@ -16,6 +16,7 @@ matrix:
       python: '3.7'
   allow_failures:
     - env: TOXENV=qa
+    - env: TOXENV=docs
     - python: 3.9-dev
     - python: nightly
 install: pip install tox-travis python-coveralls codecov
