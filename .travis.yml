@@ -25,13 +25,15 @@ after_success:
   - codecov
 
 deploy:
-  provider: pypi
-  user: __token__
-  password:
-    secure: lNO05ZwrKQ2zcwJhsF8ncNeVUYkmhiDQgXtDBpsPr155xkzxf0KqJKclsBX9lHoayARqu2P0RgydWNqgyYWT/FtLKhhTsgABoY2VhrtOe31OkMKPO6qfqHROW55x/e3U6Tw5YwsqdcvTnUKc5sTWNnLdYbBRYr0j/zRJ3wQlSIZ/FyPM7g/1MlHbmKg5GwEiqz0My3WZSKMH6JtuXInQwgZOxYQ2f/6x5zII2EL9NvGMuEjAvVLAsheZTc3s+U0tu+KRWqzfBbSEYEuvPXO3zRMwA0xcVUVo2FudvCWiNNW2iRqR6Sh3IIYwQnYvglJmVn7+G9UkZCswoIzzQx0PP+1dhB24qU/g+ApQ4qBr6u7q4duHY9qJ7f4rQ6a0enIhXcBItrVgVBBien2F7cyVM1rcq6ZbJN0dBR8fbb+Ho/giwkW75UEzvF6C0uTOSo41ssl13dHYp0Hu5gAKrNyhMkd3LlUxeIWy6BgoiqdgtAmpW8Ib/Afem+9ypnLXOo1dTI7+tORFfssWTg8hl9M6VPstmWNhR7y0mBiA5uYi+CoE0d1dttUn0myyuQIyJkVOrLZUU5T71yXjlldLT7lakrdgfhA7FESVmBrrtYr8gOdzGNyEsPqGOrkXLGTAgLQplyunoXj8uf302QCQKTquV6gCL4bCOfPPLfjQfQu9pZA=
-  on:
-    skip_existing: true
-    tags: true
-    distributions: sdist bdist_wheel
-    repo: Apkawa/pytest-ngrok
-    branch: master
+  - provider: pypi
+    twine_version: 3.1.1
+    user: __token__
+    password:
+      secure: "XXPDl4iswRCRSIvu/ZgZCV+s6KVm+lHyR43dj/fpf7XWAMKL5aRjfpHaU/0jjWPWZcrV/Vif1erytHMnZ0/j9s85Qd3XjgLN7STwa6PFPpjnqKogqPCWq8+J+ctSvdhk6deBSAfN7ys+0ZldqBl9WgJ8X0J+fORyaMUI6E4TzpCYxvK8zaX0SAjhbRdudw6apultfu/0LVsSjqTuh3ISofZX1KZwCdAwMu6uS29DpKabNYN95x8JAIxxsu83IZ43OKG7egEghFoRQQYtVu3AhvoMpGa4YcLYHXo1wDB/tLYAFnolDYZFtXPDUNg2YKf2bLmBH3zBKJzxYMCDIJWfzx1/PyrdmB4BCqfeSZTnqgdgEHVgPAhHOHpvgC5yghX5zGyc0YBCLRU/R/LPXBy3ie9A3+tB+Z0yqax3XyIIVVZ0J1T5d4MJXEvQ/WgkOhsjXSAsi6+m7FzpUBR2d3LIdI79d8yrrD5yEUR9Uo7GB4mBn1gyJQH8MTW72oSugrJIpFG1h1sceqigK7I2rTXr+7JfqFfTcNlBH+59dwr2OT9suhD/3VukeT//EEChzfr+HZt47d0g82Se8jBDFBeBgjO5W371G/dcc97NoFwhKH4uCX9P6bsbA6/vIqLdkHe0moQ9ljYkP+xzfDFAEZ7Z1VT7sSTN88/5QnwWFL6WymY="
+    on:
+      skip_existing: true
+      tags: true
+      distributions: sdist bdist_wheel
+      repo: Apkawa/pytest-ngrok
+      branch: master
+      python: 3.7
