@@ -38,12 +38,17 @@ def ngrok_install_url():
 
 @fixture(scope='session')
 def ngrok_allow_install(request):
+    """
+    Allow install ngrok from remote. Default: True
+    """
     return not request.config.getoption('--ngrok-no-install', False)
 
 
 @fixture(scope='session')
 def ngrok_bin(request):
-    # TODO get from setup.cfg
+    """
+    Path to ngrok-bin. by default - $HOME/.local/bin/ngrok
+    """
     ngrok_path = request.config.getoption('--ngrok-bin')
     if not ngrok_path:
         ngrok_path = os.path.join(Path.home(), '.local', 'bin', 'ngrok')
@@ -52,6 +57,18 @@ def ngrok_bin(request):
 
 @fixture(scope='function')
 def ngrok(ngrok_bin, ngrok_install_url, ngrok_allow_install):
+    """
+    Usage:
+    ```
+    def test_ngrok_context_manager(ngrok, httpserver):
+        httpserver.expect_request("/foobar").respond_with_data("ok")
+        with ngrok(httpserver.port) as remote_url:
+            assert 'ngrok.io' in str(remote_url)
+            _test_url = str(remote_url) + '/foobar'
+            assert urlopen(_test_url).read() == b'ok'
+        pytest.raises(HTTPError, urlopen, _test_url)
+    ```
+    """
     if not os.path.exists(ngrok_bin):
         if ngrok_allow_install:
             install_bin(ngrok_bin, remote_url=ngrok_install_url)

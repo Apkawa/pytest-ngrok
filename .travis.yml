@@ -1,12 +1,11 @@
 sudo: false
 language: python
 python:
-  - '3.5'
   - '3.6'
   - '3.7'
   - '3.8'
-  - 3.9-dev
-  - nightly
+  - '3.9-dev'
+  - 'nightly'
 matrix:
   fast_finish: true
   include:
@@ -14,9 +13,12 @@ matrix:
       python: '3.7'
     - env: TOXENV=docs
       python: '3.7'
+    - env: TOXENV=type
+      python: '3.7'
   allow_failures:
     - env: TOXENV=qa
     - env: TOXENV=docs
+    - env: TOXENV=type
     - python: 3.9-dev
     - python: nightly
 install: pip install tox-travis python-coveralls codecov
@@ -27,13 +29,14 @@ after_success:
 deploy:
   - provider: pypi
     twine_version: 3.1.1
+    skip_existing: true
+    distributions: sdist bdist_wheel
+
     user: __token__
     password:
       secure: "XXPDl4iswRCRSIvu/ZgZCV+s6KVm+lHyR43dj/fpf7XWAMKL5aRjfpHaU/0jjWPWZcrV/Vif1erytHMnZ0/j9s85Qd3XjgLN7STwa6PFPpjnqKogqPCWq8+J+ctSvdhk6deBSAfN7ys+0ZldqBl9WgJ8X0J+fORyaMUI6E4TzpCYxvK8zaX0SAjhbRdudw6apultfu/0LVsSjqTuh3ISofZX1KZwCdAwMu6uS29DpKabNYN95x8JAIxxsu83IZ43OKG7egEghFoRQQYtVu3AhvoMpGa4YcLYHXo1wDB/tLYAFnolDYZFtXPDUNg2YKf2bLmBH3zBKJzxYMCDIJWfzx1/PyrdmB4BCqfeSZTnqgdgEHVgPAhHOHpvgC5yghX5zGyc0YBCLRU/R/LPXBy3ie9A3+tB+Z0yqax3XyIIVVZ0J1T5d4MJXEvQ/WgkOhsjXSAsi6+m7FzpUBR2d3LIdI79d8yrrD5yEUR9Uo7GB4mBn1gyJQH8MTW72oSugrJIpFG1h1sceqigK7I2rTXr+7JfqFfTcNlBH+59dwr2OT9suhD/3VukeT//EEChzfr+HZt47d0g82Se8jBDFBeBgjO5W371G/dcc97NoFwhKH4uCX9P6bsbA6/vIqLdkHe0moQ9ljYkP+xzfDFAEZ7Z1VT7sSTN88/5QnwWFL6WymY="
     on:
-      skip_existing: true
       tags: true
-      distributions: sdist bdist_wheel
       repo: Apkawa/pytest-ngrok
       branch: master
       python: 3.7

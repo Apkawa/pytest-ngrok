@@ -51,6 +51,7 @@ setup(
     author="Apkawa",
     author_email='apkawa@gmail.com',
     packages=[package for package in find_packages() if package.startswith(app_name)],
+    python_requires='>=3.6, <4',
     entry_points={
         'pytest11': [
             'ngrok = pytest_ngrok.plugin',
@@ -71,7 +72,6 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
