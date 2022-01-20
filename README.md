@@ -1,7 +1,11 @@
-[![PyPi](https://img.shields.io/pypi/v/pytest-ngrok.svg)](https://pypi.python.org/pypi/pytest-ngrok)
-[![PyPI](https://img.shields.io/pypi/pyversions/pytest-ngrok.svg)](https://pypi.python.org/pypi/pytest-ngrok)
-[![Build Status](https://travis-ci.org/Apkawa/pytest-ngrok.svg?branch=master)](https://travis-ci.org/Apkawa/pytest-ngrok)
 [![Documentation Status](https://readthedocs.org/projects/pytest-ngrok/badge/?version=latest)](https://pytest-ngrok.readthedocs.io/en/latest/?badge=latest)
+
+[![ci](https://github.com/Apkawa/pytest-ngrok/actions/workflows/ci.yml/badge.svg)](https://github.com/Apkawa/pytest-django-ngrok/actions/workflows/ci.yml)
+[![Codecov](https://codecov.io/gh/Apkawa/pytest-ngrok/branch/master/graph/badge.svg)](https://codecov.io/gh/Apkawa/pytest-ngrok) </br>
+
+[![PyPi](https://img.shields.io/pypi/v/pytest-ngrok.svg)](https://pypi.python.org/pypi/pytest-ngrok)
+[![PyPI Python versions](https://img.shields.io/pypi/pyversions/pytest-ngrok.svg)](https://pypi.python.org/pypi/pytest-ngrok)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)</br>
 
 <!--
 [![codecov](https://codecov.io/gh/Apkawa/pytest-ngrok/branch/master/graph/badge.svg)](https://codecov.io/gh/Apkawa/pytest-ngrok)
@@ -50,7 +54,7 @@ def test_ngrok_context_manager(ngrok, httpserver):
     pytest.raises(HTTPError, urlopen, _test_url)
 ```
 
-With `pytest-django` can use fixture `live_server_ngrok` 
+With `pytest-django` can use fixture `live_server_ngrok`
 
 ```python
 def test_server(live_server_ngrok):
@@ -59,7 +63,7 @@ def test_server(live_server_ngrok):
 
 # Contributing
 
-## Initialize 
+## Initialize
 
 ```bash
 python -m venv /tmp/.venv/pytest-ngrok
@@ -85,9 +89,3 @@ python setup.py bumpversion
 ```bash
 python setup.py publish
 ```
-
-
-
-
-
-
