@@ -14,5 +14,10 @@ pytest-httpserver==0.3.4
 Sphinx
 sphinx_rtd_theme
 recommonmark
-m2r
+m2r2
+sphinx-autodoc-typehints
+sphinx-paramlinks
 
+
+# QA
+pre-commit
