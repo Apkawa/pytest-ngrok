@@ -4,11 +4,11 @@ from pathlib import Path
 
 from pytest import fixture
 
-from pytest_ngrok.install import install_bin
+from pytest_ngrok.install import install_bin, get_bin_version
 from pytest_ngrok.manager import NgrokContextManager
 
 try:
-    from .django import * # noqa
+    from .django import *  # noqa
 except ImportError:
     pass
 
@@ -26,8 +26,15 @@ def pytest_addoption(parser):
         help='Disable fetch ngrok binary from remote'
     )
 
+    parser.addoption(
+        '--ngrok-force-install',
+        action='store_true',
+        default=False,
+        help='Force fetch ngrok bin from remote'
+    )
 
 
+NGROK_VERSION = '3.0.6'
 REMOTE_URL = 'https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.zip'
 
 
@@ -35,6 +42,11 @@ REMOTE_URL = 'https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.z
 def ngrok_install_url():
     # TODO verify
     return REMOTE_URL
+
+
+@fixture(scope='session')
+def ngrok_version():
+    return NGROK_VERSION
 
 
 @fixture(scope='session')
@@ -56,8 +68,29 @@ def ngrok_bin(request):
     return ngrok_path
 
 
+@fixture(scope='session')
+def _ngrok_bin(request, ngrok_bin, ngrok_install_url, ngrok_allow_install, ngrok_version):
+    need_install = False
+    force_install = request.config.getoption('--ngrok-force-install')
+    if force_install:
+        need_install = True
+    elif not os.path.exists(ngrok_bin):
+        if not ngrok_allow_install:
+            raise OSError("Ngrok %s bin not found!" % ngrok_bin)
+    else:
+        version = get_bin_version(ngrok_bin)
+        if version != ngrok_version:
+            if not ngrok_allow_install:
+                raise OSError(f"Ngrok {ngrok_bin} version mismatch!"
+                              f" Need '{ngrok_version}', got '{version}'")
+            need_install = True
+
+    if need_install:
+        install_bin(ngrok_bin, remote_url=ngrok_install_url)
+
+
 @fixture(scope='function')
-def ngrok(ngrok_bin, ngrok_install_url, ngrok_allow_install):
+def ngrok(_ngrok_bin):
     """
     Usage:
     ```
@@ -70,16 +103,10 @@ def ngrok(ngrok_bin, ngrok_install_url, ngrok_allow_install):
         pytest.raises(HTTPError, urlopen, _test_url)
     ```
     """
-    if not os.path.exists(ngrok_bin):
-        if ngrok_allow_install:
-            install_bin(ngrok_bin, remote_url=ngrok_install_url)
-        else:
-            raise OSError("Ngrok %s bin not found!" % ngrok_bin)
-
     managers = []
 
     def _wrap(port=None):
-        manager = NgrokContextManager(ngrok_bin, port)
+        manager = NgrokContextManager(_ngrok_bin, port)
         managers.append(manager)
         return manager()
 

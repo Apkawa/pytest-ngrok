@@ -2,8 +2,12 @@ import os
 import subprocess
 import tempfile
 
-from pytest_ngrok.install import install_bin
+from pytest_ngrok.install import install_bin, get_bin_version
 from pytest_ngrok.plugin import REMOTE_URL
+
+
+def test_version(ngrok, ngrok_bin):
+    assert get_bin_version(ngrok_bin) == '3.0.6'
 
 
 def test_install():

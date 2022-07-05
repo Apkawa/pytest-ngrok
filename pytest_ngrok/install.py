@@ -1,6 +1,8 @@
 import io
 import os
+import re
 import shutil
+import subprocess
 from urllib.request import urlopen
 from zipfile import ZipFile
 
@@ -10,6 +12,20 @@ def fetch_url(url, stream_cls=io.BytesIO):
     stream.write(urlopen(url).read())
     stream.seek(0)
     return stream
+
+
+def get_bin_version(bin_path):
+    process = subprocess.Popen(
+        [
+            bin_path,
+            'version',
+        ],
+        stdout=subprocess.PIPE
+    )
+    process.wait()
+    version_raw = process.stdout.readline().decode()
+
+    return re.findall(r'(?:\d+\.)+\d+', version_raw)[0]
 
 
 def install_bin(bin_path, remote_url):
