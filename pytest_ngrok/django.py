@@ -25,7 +25,15 @@ class LiveServerNgrokMixin:
 
     @property
     def url(self):
+        return self.remote_url
+
+    @property
+    def remote_url(self):
         return self.ngrok.url
+
+    @property
+    def local_url(self):
+        return super().url
 
     def stop(self):
         super().stop()
