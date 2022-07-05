@@ -27,7 +27,8 @@ def pytest_addoption(parser):
     )
 
 
-REMOTE_URL = 'https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip'
+
+REMOTE_URL = 'https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.zip'
 
 
 @fixture(scope='session')
