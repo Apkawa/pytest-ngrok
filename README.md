@@ -25,7 +25,7 @@ pip install pytest-ngrok
 or from git
 
 ```bash
-pip install -e git+https://githib.com/Apkawa/pytest-ngrok.git#egg=pytest-ngrok
+pip install -e git+https://github.com/Apkawa/pytest-ngrok.git#egg=pytest-ngrok
 ```
 
 
