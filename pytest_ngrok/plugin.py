@@ -1,10 +1,11 @@
-import distutils.spawn
 import os
 from pathlib import Path
 
+from packaging import version
 from pytest import fixture
+from shutils import which
 
-from pytest_ngrok.install import install_bin, get_bin_version
+from pytest_ngrok.install import get_bin_version, install_bin
 from pytest_ngrok.manager import NgrokContextManager
 
 try:
@@ -12,11 +13,13 @@ try:
 except ImportError:
     pass
 
+default_ngrok_path = os.path.join(Path.home(), '.local', 'bin', 'ngrok')
+
 
 def pytest_addoption(parser):
     parser.addoption(
         '--ngrok-bin',
-        default=distutils.spawn.find_executable('ngrok'),
+        default=which('ngrok') or default_ngrok_path,
         help='path to ngrok [%default]'
     )
     parser.addoption(
@@ -62,10 +65,7 @@ def ngrok_bin(request):
     """
     Path to ngrok-bin. by default - $HOME/.local/bin/ngrok
     """
-    ngrok_path = request.config.getoption('--ngrok-bin')
-    if not ngrok_path:
-        ngrok_path = os.path.join(Path.home(), '.local', 'bin', 'ngrok')
-    return ngrok_path
+    return request.config.getoption('--ngrok-bin')
 
 
 @fixture(scope='session')
@@ -77,16 +77,17 @@ def _ngrok_bin(request, ngrok_bin, ngrok_install_url, ngrok_allow_install, ngrok
     elif not os.path.exists(ngrok_bin):
         if not ngrok_allow_install:
             raise OSError("Ngrok %s bin not found!" % ngrok_bin)
+        need_install = True
     else:
-        version = get_bin_version(ngrok_bin)
-        if version != ngrok_version:
+        installed_version = version.parse(get_bin_version(ngrok_bin))
+        if installed_version < version.parse(ngrok_version):
             if not ngrok_allow_install:
-                raise OSError(f"Ngrok {ngrok_bin} version mismatch!"
-                              f" Need '{ngrok_version}', got '{version}'")
+                raise OSError(f"Installed ngrok {ngrok_bin} needs update!"
+                              f" Need '>={ngrok_version}', got '{installed_version}'")
             need_install = True
 
     if need_install:
-        install_bin(ngrok_bin, remote_url=ngrok_install_url)
+        install_bin(ngrok_bin, remote_url=ngrok_install_url, force_install=force_install)
 
 
 @fixture(scope='function')

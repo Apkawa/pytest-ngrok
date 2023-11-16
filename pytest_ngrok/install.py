@@ -28,8 +28,8 @@ def get_bin_version(bin_path):
     return re.findall(r'(?:\d+\.)+\d+', version_raw)[0]
 
 
-def install_bin(bin_path, remote_url):
-    if os.path.exists(bin_path):
+def install_bin(bin_path, remote_url, force_install=False):
+    if os.path.exists(bin_path) and not force_install:
         raise ValueError("Path is exists!")
     dir_path = os.path.dirname(bin_path)
     if not os.path.exists(dir_path):
