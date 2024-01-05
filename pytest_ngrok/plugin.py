@@ -3,7 +3,7 @@ from pathlib import Path
 
 from packaging import version
 from pytest import fixture
-from shutils import which
+from shutil import which
 
 from pytest_ngrok.install import get_bin_version, install_bin
 from pytest_ngrok.manager import NgrokContextManager
