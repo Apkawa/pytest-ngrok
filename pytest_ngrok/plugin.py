@@ -88,6 +88,7 @@ def _ngrok_bin(request, ngrok_bin, ngrok_install_url, ngrok_allow_install, ngrok
 
     if need_install:
         install_bin(ngrok_bin, remote_url=ngrok_install_url, force_install=force_install)
+    return ngrok_bin
 
 
 @fixture(scope='function')
