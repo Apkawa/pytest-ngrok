@@ -13,7 +13,11 @@
 [![PyUP](https://pyup.io/repos/github/Apkawa/pytest-ngrok/shield.svg)](https://pyup.io/repos/github/Apkawa/pytest-ngrok)
 -->
 
+**Warning: This project will no longer be supported due to the ngrok service not working for me.**
+
+
 pytest integration for [ngrok.io](https://ngrok.com/)
+
 
 # Installation
 
@@ -30,6 +34,21 @@ pip install -e git+https://github.com/Apkawa/pytest-ngrok.git#egg=pytest-ngrok
 
 
 # Usage
+
+## Authtoken
+
+Ways to pass token
+1) `ngrok config add-authtoken $YOUR_AUTHTOKEN`
+2) `~/.config/ngrok/ngrok.yml`
+
+    ```yaml
+    version: 3
+    agent:
+        authtoken: <your-authtoken>
+    ```
+3) `export NGROK_AUTHTOKEN=$token$`
+
+## Use in tests
 
 ```python
 import pytest
@@ -59,33 +78,4 @@ With `pytest-django` can use fixture `live_server_ngrok`
 ```python
 def test_server(live_server_ngrok):
     assert live_server_ngrok.url.endswith('ngrok.io')
-```
-
-# Contributing
-
-## Initialize
-
-```bash
-python -m venv /tmp/.venv/pytest-ngrok
-source /tmp/.venv/pytest-ngrok/activate
-pip install -r requirements-dev.txt
-```
-
-## Run tests
-
-```bash
-pytest
-tox
-```
-
-## Update version
-
-```bash
-python setup.py bumpversion
-```
-
-## Publish pypi
-
-```bash
-python setup.py publish
 ```
