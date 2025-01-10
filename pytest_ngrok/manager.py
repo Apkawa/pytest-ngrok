@@ -25,14 +25,19 @@ class NgrokContextManager:
         self.process = process = subprocess.Popen(
             process_args, stderr=subprocess.PIPE, stdout=subprocess.PIPE
         )
-
+        # print(process_args)
         # Detecting public address by grepping log
         while True:
             for line in process.stdout:
-                data = json.loads(line.decode("utf-8"))
-                if "resp" in data and "URL" in data["resp"]:
-                    self.remote_addr = data["resp"]["URL"]
-                    return self.remote_addr
+                # TODO debug
+                print(line)
+                try:
+                    data = json.loads(line.decode("utf-8"))
+                    if "resp" in data and "URL" in data["resp"]:
+                        self.remote_addr = data["resp"]["URL"]
+                        return self.remote_addr
+                except json.JSONDecodeError:
+                    pass
             else:
                 try:
                     process.wait(0.5)
