@@ -2,13 +2,13 @@
 bumpversion
 wheel
 tox
-twine
 
 # Tests
-pytest>=4,<5
-pytest-flake8==1.0.4
-pytest-cov==2.8.1
-pytest-httpserver==0.3.4
+pytest
+pytest-flake8
+pytest-cov
+pytest-httpserver
+
 # Docs
 
 Sphinx
