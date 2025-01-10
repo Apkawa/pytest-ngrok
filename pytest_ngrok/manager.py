@@ -29,8 +29,7 @@ class NgrokContextManager:
         # Detecting public address by grepping log
         while True:
             for line in process.stdout:
-                # TODO debug
-                print(line)
+                # print(line)
                 try:
                     data = json.loads(line.decode("utf-8"))
                     if "resp" in data and "URL" in data["resp"]:
